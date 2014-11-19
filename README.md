@@ -12,3 +12,7 @@ i don't know yet. you enter new records through pulling up the window and typing
 ### example
 
 entering a message like "meeting with paul ++" would result in a record that reads "meeting with paul" from 20 minutes ago to now.
+
+### goals
+
+provide a small standalone app, that allows users to retrospectively track events. aiming for a fire-and-forget workflow, where the window appears triggered by a global shortcut and hidden immediatly after data input. 
