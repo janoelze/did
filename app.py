@@ -20,7 +20,7 @@ def save_data(file_path, data):
 	file.write(json.dumps(data))
 	file.close()
 
-def create_record(description, length=60):
+def create_record(description, time, length=60):
 	today = datetime.date.today()
 	record_file = '%s/%s-%s-%s.json' % (data_dir, today.strftime('%d'), today.strftime('%m'), today.strftime('%Y'))
 
@@ -28,7 +28,7 @@ def create_record(description, length=60):
 
 	records.append({
 		'id': str(uuid.uuid4()),
-		'time': int(time.time()),
+		'time': int(time),
 		'description': str(description),
 		'length': int(length)
 	})
@@ -46,8 +46,22 @@ def main():
 	E1.focus()
 
 	def submit(event):
-		if str(E1.get()) is not '':
-			create_record(E1.get())
+		description = str(E1.get())
+		if description is not '':
+			def get_record_length(description):
+				description = description.translate(None, '!@#$._-')
+				description_tokens = description.split(' ')
+				for token in description_tokens:
+					# check if token consists of only addition signs
+					if token == len(token) * '+':
+						# calculate length, each addition sign symbolizes 10 minutes
+						return len(token) * 10
+				return 0
+
+			length = get_record_length(description)
+			description = description.translate(None, '+') # remove all addition signs
+
+			create_record(description, time.time(), 60)
 			load_records()
 
 	root.bind("<Return>", submit)
