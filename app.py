@@ -59,7 +59,6 @@ def main():
 				return 0
 
 			length = get_record_length(description)
-			description = description.translate(None, '+') # remove all addition signs
 
 			create_record(description, time.time(), 60)
 			load_records()
@@ -86,7 +85,8 @@ def main():
 
 		for record in records:
 			timestr = datetime.datetime.fromtimestamp(record['time']).strftime('%Y-%m-%d %H:%M:%S')
-			RecordsList.insert(END, "%s \t\t %s" % (timestr, record['description']))
+			description = record['description'].translate(None, '+')
+			RecordsList.insert(END, "%s \t\t %s" % (timestr, description))
 
 	load_records()
 
