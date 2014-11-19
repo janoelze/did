@@ -7,7 +7,7 @@ retrospective time tracking inspired by alfred and the like.
 
 ### usage
 
-i don't know yet. you enter new records through pulling up the window and typing a concise description of the task/event you just completed. you can add a duration to the event by entering ```+```-signs. they are interpreted as a 10 min units. the addition-signs are then removed from the message text.
+i don't know yet. you enter new records through pulling up the window and typing a concise description of the task/event you just completed. you can add a duration to the event by entering ```+```-signs. they are interpreted as 10 min units and added up to estimate the length of the event.
 
 ### example
 
