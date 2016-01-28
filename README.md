@@ -15,4 +15,4 @@ entering a message like "meeting with paul ++" would result in a record that rea
 
 ### goals
 
-provide a small standalone app, that allows users to retrospectively track events. aiming for a fire-and-forget workflow, where the window appears triggered by a global shortcut and hidden immediatly after data input. 
+provide a small standalone app, that allows users to retrospectively track events. aiming for a fire-and-forget workflow, where the window appears triggered by a global shortcut and hidden immediatly after data input.

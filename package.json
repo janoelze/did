@@ -1,0 +1,13 @@
+{
+  "name": "did",
+  "longname": "did",
+  "namespace": "de.janoelze.did",
+  "version": "0.1.0",
+  "description": "fire and forget timetracking",
+  "author": "Jan Oelze <jan@codein.is>",
+  "sources": {
+    "directory":"."
+  },
+  "icon": { "windows":["someicon.png"], "osx":["someicon.png"] },
+  "main": "main.js"
+}
