@@ -3,11 +3,9 @@ did
 
 ![](https://i.imgur.com/7Nmz0HU.png)
 
-retrospective time tracking inspired by alfred and the like.
-
 ### usage
 
-i don't know yet. you enter new records through pulling up the window and typing a concise description of the task/event you just completed. you can add a duration to the event by entering ```+```-signs. they are interpreted as 10 min units and added up to estimate the length of the event.
+did does fire and forget timetracking. you open the app via a global hotkey and type a concise description of the task/event you just completed in the already focused text field. you can add a duration to the event by entering ```+```-signs. they are interpreted as 10 min units and added up to estimate the length of the event.
 
 ### example
 
