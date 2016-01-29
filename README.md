@@ -1,7 +1,7 @@
 did
 =====
 
-![](https://i.imgur.com/Nm3wMrz.png)
+![](https://i.imgur.com/7Nmz0HU.png)
 
 retrospective time tracking inspired by alfred and the like.
 
