@@ -1,0 +1,4 @@
+- add link that opens records.csv
+- split main.js in submodules
+- add installer
+- add global hotkey
