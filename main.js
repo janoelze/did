@@ -124,7 +124,13 @@ var window = new Window();
 
 window.visible = true;
 window.width = 600;
-window.title = "did";
+window.textured = true;
+
+window.maximizeButton = false;
+window.minimizeButton = false;
+window.closeButton = false;
+
+window.title = "";
 
 application.exitAfterWindowsClose = true; // If no windows are open, exit.
 
@@ -139,8 +145,7 @@ window.addEventListener('resize', function() {
     RecordTable.resize();
 });
 
-application.registerHotKey('\uf728', function(){
-    console.log('del');
+application.registerHotKey('\u007f', '', function() {
 });
 
 //window.addEventListener('focus', function(){
@@ -169,8 +174,7 @@ input.addEventListener('inputend', function(e) {
 
     if(title){
         Records.add(title, function(){
-            input.value = '';
-            RecordTable.load();
+            window.destroy();
         });
     }
 });
