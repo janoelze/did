@@ -1,4 +1,6 @@
-- add link that opens records.csv
-- split main.js in submodules
-- add installer
-- add global hotkey
+- [ ] add link that opens records.csv
+- [ ] split main.js in submodules
+- [ ] add installer
+- [ ] add global hotkey
+- [x] add config saving
+- [x] add "quit on data entry" toggle
