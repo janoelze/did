@@ -5,9 +5,26 @@ var readline = require('readline');
 var fs = require('fs');
 var dateFormat = require('dateformat');
 
+var configFile = system.home + '/.did/conf.json';
+var config = {};
+
+fs.exists(configFile, function(exists){
+    if(exists){
+        config = require(configFile);
+
+        Main.init();
+    };
+});
+
 var recordsStorage = system.home + '/.did/records.csv';
 var durationChar = '+';
 var durationMin = 10;
+
+function saveConfig(){
+    fs.writeFile(configFile, JSON.stringify(config), {
+        flags: 'wx'
+    });
+}
 
 var Records = {
     getAll: function(cb){
@@ -33,6 +50,9 @@ var Records = {
                 cb([]); // return empty records list
             }
         });
+    },
+    delete: function(selectedIndexes){
+
     },
     clearTitle: function(title){
         return title.split(durationChar).join('');
@@ -107,7 +127,8 @@ var RecordTable = {
         RecordTable.scroll.setChild(RecordTable.object);
 
         RecordTable.scroll.left = RecordTable.scroll.right = RecordTable.scroll.bottom = 0;
-        RecordTable.scroll.top = 31;
+        RecordTable.scroll.top = 43;
+        RecordTable.scroll.bottom = 27;
         RecordTable.scroll.hortizontal = false;
 
         RecordTable.object.alternatingColors = true;
@@ -134,47 +155,95 @@ window.title = "";
 
 application.exitAfterWindowsClose = true; // If no windows are open, exit.
 
-// register key-commands
-application.registerHotKey('q', 'cmd', function(){ window.destroy(); }); // quit
-application.registerHotKey('v', 'cmd', function(){ application.paste(); }); // paste
-application.registerHotKey('c', 'cmd', function(){ application.copy(); }); // copy
-application.registerHotKey('x', 'cmd', function(){ application.cut(); }); // cut
-application.registerHotKey('a', 'cmd', function(){ application.selectAll(); }); // select all
-
 window.addEventListener('resize', function() {
     RecordTable.resize();
 });
 
-application.registerHotKey('\u007f', '', function() {
-});
+var Main = {
+    initHotKeys: function(){
+        // register key-commands
+        application.registerHotKey('q', 'cmd', function(){ window.destroy(); }); // quit
+        application.registerHotKey('v', 'cmd', function(){ application.paste(); }); // paste
+        application.registerHotKey('c', 'cmd', function(){ application.copy(); }); // copy
+        application.registerHotKey('x', 'cmd', function(){ application.cut(); }); // cut
+        application.registerHotKey('a', 'cmd', function(){ application.selectAll(); }); // select all
 
-//window.addEventListener('focus', function(){
-//    System.mouseDownAt(5,5);
-//});
+        application.registerHotKey('\u007f', '', function() {
+            var selectedIndexes = RecordTable.object.selectedRows;
 
-RecordTable.init();
-RecordTable.resize();
+            if (selectedIndexes.length) {
+                var confirmationBox = new Dialog();
 
-var input = new TextInput();
+                confirmationBox.title = 'Are you sure you want to delete this entry?';
+                confirmationBox.message = 'This cannot be undone.';
+                confirmationBox.open();
 
-window.appendChild(input);
-
-input.textcolor = 'rgba(0,0,0,1);';
-input.top = 3;
-input.height = 25;
-input.left = 3;
-//input.middle = 0;
-input.placeholder = 'I did';
-input.right = 3;
-
-input.focus();
-
-input.addEventListener('inputend', function(e) {
-    var title = input.value;
-
-    if(title){
-        Records.add(title, function(){
-            window.destroy();
+                confirmationBox.addEventListener('click', function(){
+                    Records.delete(selectedIndexes);
+                });
+            };
         });
+    },
+    init: function(){
+        Main.initHotKeys();
+
+        RecordTable.init();
+        RecordTable.resize();
+
+        var input = new TextInput();
+
+        window.appendChild(input);
+
+        var inputMargin = 10;
+
+        input.textcolor = 'rgba(0,0,0,1);';
+        input.top = inputMargin;
+        input.height = 25;
+        input.left = inputMargin;
+        //input.middle = 0;
+        input.placeholder = 'I did';
+        input.right = inputMargin;
+
+        input.focus();
+
+        input.addEventListener('inputend', function(e) {
+            var title = input.value;
+
+            if(title){
+                Records.add(title, function(){
+                    if (config.quitOnDataEntry) {
+                        window.destroy();
+                    }else{
+                        input.value = '';
+                        RecordTable.load();
+                    };
+                });
+            }
+        });
+
+        var button = new Button();
+
+        button.title = 'Quit app on data entry';
+        button.border = false;
+        button.type = 'checkbox';
+        button.left = 10;
+        button.bottom = 3;
+
+        console.log(config.quitOnDataEntry);
+
+        if (config.quitOnDataEntry) {
+            button.state = true;
+        }else{
+            button.state = false;
+        };
+
+        button.addEventListener('click', function(){
+            config.quitOnDataEntry = button.state;
+            saveConfig();
+        });
+
+        window.appendChild(button);
     }
-});
+};
+
+
